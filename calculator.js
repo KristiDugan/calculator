@@ -90,6 +90,9 @@ numberButtons.forEach(numberButton => {
 	numberButton.addEventListener('click', function() {
 		if (this.id === 'decimal-point') {
 			console.log('Decimal point clicked');
+			if (display.innerText === DIVIDEBY0MESSAGE) {
+				clearAll();
+			}
 			if (checkForDecimalPoint(display.innerText)) {
 				return;	// disable decimal point button click if decimal point already exists
 			}
