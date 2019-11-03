@@ -50,6 +50,10 @@ function setDisplayValue(value) {
 	} else {
 		displayValue = value;
 	}
+	// add a leading zero if starts with decimal point
+	if ((/^\./).test(displayValue)) {
+		displayValue = '0' + displayValue;
+	}
 	display.innerText = displayValue;
 }
 
@@ -74,14 +78,28 @@ function logCurrentValues() {
 	console.log('currentNum2 is ' + currentNum2);
 }
 
+function checkForDecimalPoint(str) {
+	decimalRegEx = /\./;
+	return decimalRegEx.test(str);
+}
+
 clearButton = document.getElementById('clear');
 clearButton.addEventListener('click', clearAll);
 
 numberButtons.forEach(numberButton => {
 	numberButton.addEventListener('click', function() {
+		if (this.id === 'decimal-point') {
+			console.log('Decimal point clicked');
+			if (checkForDecimalPoint(display.innerText)) {
+				return;	// disable decimal point button click if decimal point already exists
+			}
+		}
+
 		if (currentNum1 === '' && currentOperator === '' && currentNum2 === '' && display.innerText !== '0') {
 			console.log('An answer is already displaying');
-			clearDisplayValue();
+			if (this.id !== 'decimal-point') {
+				clearDisplayValue();
+			}
 			setDisplayValue(this.innerText);
 			currentNum1 = getDisplayValue();
 		} else if (currentOperator === '' && currentNum2 === '') {
@@ -94,6 +112,7 @@ numberButtons.forEach(numberButton => {
 		} else {
 			setDisplayValue(this.innerText);
 		}
+
 		logCurrentValues();
 	});
 });
@@ -139,6 +158,4 @@ equalsButton.addEventListener('click', function() {
 
 });
 
-// Users should be able to string together several operations and get the right answer: 12 + 7 - 5 * 3 etc.
 // You should round answers with long decimals so that they don’t overflow the screen.
-// Pressing = before entering all of the numbers or an operator could cause problems!
