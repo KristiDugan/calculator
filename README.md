@@ -1,6 +1,6 @@
 # Calculator
 
-JavaScript calculator
+An exercise in vanilla JavaScript
 
 [View in browser](https://kristidugan.github.io/calculator/)
 
